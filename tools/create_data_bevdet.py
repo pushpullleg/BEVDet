@@ -101,10 +101,9 @@ def nuscenes_data_prep(root_path, info_prefix, version, max_sweeps=10):
         root_path, info_prefix, version=version, max_sweeps=max_sweeps)
 
 
-def add_ann_adj_info(extra_tag):
-    nuscenes_version = 'v1.0-trainval'
+def add_ann_adj_info(extra_tag, version):
     dataroot = './data/nuscenes/'
-    nuscenes = NuScenes(nuscenes_version, dataroot)
+    nuscenes = NuScenes(version, dataroot)
     for set in ['train', 'val']:
         dataset = pickle.load(
             open('./data/nuscenes/%s_infos_%s.pkl' % (extra_tag, set), 'rb'))
@@ -136,7 +135,8 @@ def add_ann_adj_info(extra_tag):
 
 if __name__ == '__main__':
     dataset = 'nuscenes'
-    version = 'v1.0-trainval'
+    # Use the NuScenes mini split that is already downloaded locally.
+    version = 'v1.0-mini'
     # version = 'v1.0-test'
     root_path = './data/nuscenes'
     extra_tag = 'bevdetv3-nuscenes'
@@ -147,7 +147,7 @@ if __name__ == '__main__':
         max_sweeps=10)
 
     # print('add_ann_infos')
-    add_ann_adj_info(extra_tag)
+    add_ann_adj_info(extra_tag, version)
 
     create_groundtruth_database('NuScenesDataset',
                                 root_path,
