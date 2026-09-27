@@ -135,11 +135,12 @@ def add_ann_adj_info(extra_tag, version):
 
 if __name__ == '__main__':
     dataset = 'nuscenes'
-    # Use the NuScenes mini split that is already downloaded locally.
-    version = 'v1.0-mini'
+    # Full trainval, keyframes only (mini used 'v1.0-mini' / 'bevdetv3-nuscenes').
+    version = 'v1.0-trainval'
     # version = 'v1.0-test'
     root_path = './data/nuscenes'
-    extra_tag = 'bevdetv3-nuscenes'
+    # Distinct tag so the mini infos (bevdetv3-nuscenes_infos_*.pkl) are not overwritten.
+    extra_tag = 'bevdetv3-trainval'
     nuscenes_data_prep(
         root_path=root_path,
         info_prefix=extra_tag,
@@ -149,7 +150,9 @@ if __name__ == '__main__':
     # print('add_ann_infos')
     add_ann_adj_info(extra_tag, version)
 
-    create_groundtruth_database('NuScenesDataset',
-                                root_path,
-                                extra_tag,
-                                f'{root_path}/{extra_tag}_infos_train.pkl')
+    # Skipped: the GT database reads LiDAR sweeps (not downloaded) and is only
+    # used by LiDAR copy-paste augmentation, which the BEVDet configs don't use.
+    # create_groundtruth_database('NuScenesDataset',
+    #                             root_path,
+    #                             extra_tag,
+    #                             f'{root_path}/{extra_tag}_infos_train.pkl')
