@@ -3,7 +3,10 @@ from .base import Base3DDetector
 from .bevdet import BEVDepth4D, BEVDet, BEVDet4D, BEVDetTRT, BEVStereo4D
 from .bevdet_occ import BEVStereo4DOCC
 from .centerpoint import CenterPoint
-from .dal import DAL
+try:
+    from .dal import DAL
+except ImportError:
+    DAL = None
 from .dynamic_voxelnet import DynamicVoxelNet
 from .fcos_mono3d import FCOSMono3D
 from .groupfree3dnet import GroupFree3DNet
